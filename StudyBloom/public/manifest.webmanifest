@@ -1,0 +1,13 @@
+{
+  "name": "StudyBloom",
+  "short_name": "StudyBloom",
+  "description": "Your private mini online school, homework hub, and interactive study companion.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8f6fb",
+  "theme_color": "#7557c7",
+  "orientation": "any",
+  "icons": [
+    { "src": "/studybloom-icon.png", "sizes": "1254x1254", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
