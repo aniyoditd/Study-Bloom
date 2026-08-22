@@ -1,0 +1,27 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { XP_REWARDS, xpForActivity, xpLevel } from "./experience";
+import type { StudyState } from "./types";
+
+export function QuickActions({ addClass, addTask, addNote, addEvent, upload }: { addClass: () => void; addTask: () => void; addNote: () => void; addEvent: () => void; upload: () => void }) {
+  const [open, setOpen] = useState(false);
+  const root = useRef<HTMLDivElement>(null);
+  useEffect(() => { const close = (event: MouseEvent) => { if (!root.current?.contains(event.target as Node)) setOpen(false); }; document.addEventListener("mousedown", close); return () => document.removeEventListener("mousedown", close); }, []);
+  const choose = (action: () => void) => { setOpen(false); action(); };
+  return <div className="sb4-quick" ref={root}><button aria-expanded={open} aria-haspopup="menu" title="Quick add" onClick={() => setOpen(!open)}>＋</button>{open && <div role="menu"><small>QUICK ADD</small><button role="menuitem" onClick={() => choose(addTask)}><span>✓</span><b>Schoolwork</b><i>Homework or project</i></button><button role="menuitem" onClick={() => choose(addNote)}><span>✎</span><b>Note</b><i>Text, math, or ink</i></button><button role="menuitem" onClick={() => choose(upload)}><span>⇧</span><b>Study material</b><i>Document, image, or audio</i></button><button role="menuitem" onClick={() => choose(addClass)}><span>▦</span><b>Class</b><i>Course or subject</i></button><button role="menuitem" onClick={() => choose(addEvent)}><span>□</span><b>Calendar event</b><i>Exam or deadline</i></button></div>}</div>;
+}
+
+export function XpPanel({ state, close }: { state: StudyState; close: () => void }) {
+  const level = xpLevel(state.profile.xp);
+  const recent = state.activities.slice(0, 6);
+  return <div className="sb2-modal-backdrop" onMouseDown={(event) => event.target === event.currentTarget && close()}><section className="sb4-xp-panel" role="dialog" aria-modal="true" aria-label="StudyBloom XP and levels"><button className="sb2-modal-close" onClick={close}>×</button><header><span>✦</span><div><small>YOUR LEARNING MOMENTUM</small><h2>Level {level.level} · {state.profile.xp.toLocaleString()} XP</h2><p>XP celebrates useful study actions. It never lowers your grades or locks features.</p></div></header><div className="sb4-level"><div><b>{level.earned} / 500 XP</b><span>{level.needed} XP to Level {level.level + 1}</span></div><i><em style={{ width: `${level.percent}%` }}/></i></div><h3>How to earn XP</h3><div className="sb4-rewards">{Object.entries(XP_REWARDS).map(([kind, reward]) => <article key={kind}><span>{kind === "flashcard" ? "▤" : kind === "practice" ? "✎" : kind === "exam" ? "◎" : kind === "focus" ? "◷" : kind === "task" ? "✓" : kind === "note" ? "☰" : "⇧"}</span><div><b>{reward.label}</b><small>{reward.xp}</small></div></article>)}</div><h3>Recent XP</h3><div className="sb4-xp-history">{recent.length ? recent.map((activity) => <article key={activity.id}><div><b>{activity.label}</b><small>{new Date(activity.createdAt).toLocaleDateString()}</small></div><strong>+{xpForActivity(activity.kind, activity.value)} XP</strong></article>) : <p>Complete a study action to start your XP history.</p>}</div></section></div>;
+}
+
+export function InstallPanel({ close, nativeInstall, canNativeInstall }: { close: () => void; nativeInstall: () => Promise<void>; canNativeInstall: boolean }) {
+  const standalone = typeof window !== "undefined" && (window.matchMedia("(display-mode: standalone)").matches || (navigator as Navigator & { standalone?: boolean }).standalone);
+  const ua = typeof navigator === "undefined" ? "" : navigator.userAgent;
+  const ios = /iPad|iPhone|iPod/.test(ua);
+  const safari = /Safari/.test(ua) && !/Chrome|CriOS|Edg/.test(ua);
+  return <div className="sb2-modal-backdrop" onMouseDown={(event) => event.target === event.currentTarget && close()}><section className="sb4-install-panel" role="dialog" aria-modal="true" aria-label="Install StudyBloom"><button className="sb2-modal-close" onClick={close}>×</button><header><img src="/studybloom-icon.png" alt=""/><div><small>OFFLINE-READY STUDY APP</small><h2>{standalone ? "StudyBloom is installed" : "Install StudyBloom"}</h2><p>Launch it from your home screen or desktop and reopen previously loaded pages when offline.</p></div></header>{standalone ? <div className="sb4-installed">✓ You’re using the installed app.</div> : canNativeInstall ? <button className="sb2-primary sb4-install-now" onClick={nativeInstall}>Install StudyBloom now</button> : <div className="sb4-install-steps"><h3>{ios ? "On iPhone or iPad" : safari ? "In Safari on Mac" : "From your browser"}</h3><ol>{ios ? <><li>Open StudyBloom in Safari.</li><li>Tap the Share button.</li><li>Choose <b>Add to Home Screen</b>, then Add.</li></> : safari ? <><li>Open the File menu.</li><li>Choose <b>Add to Dock</b>.</li><li>Confirm Add.</li></> : <><li>Open your browser menu.</li><li>Choose <b>Install StudyBloom</b> or <b>Install app</b>.</li><li>Confirm the installation.</li></>}</ol></div>}<div className="sb4-offline-note"><span>⌁</span><div><b>Offline-ready shell</b><p>The app layout, icon, and previously loaded assets are cached. Your progress remains saved locally on this device.</p></div></div></section></div>;
+}

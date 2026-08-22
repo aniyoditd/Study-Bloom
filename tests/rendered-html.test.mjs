@@ -40,3 +40,18 @@ test("ships personalization and installable-app metadata", async () => {
   assert.match(source, /Daily study goal/);
   assert.match(source, /Accent color/);
 });
+
+test("ships quick management, install guidance, and interactive XP", async () => {
+  const [app, panels, experience] = await Promise.all([
+    readFile(new URL("../app/study/StudyBloomV2.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/study/ExperiencePanels.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/study/experience.ts", import.meta.url), "utf8"),
+  ]);
+  assert.match(app, /removeClass/);
+  assert.match(app, /removeMaterial/);
+  assert.match(app, /QuickActions/);
+  assert.match(panels, /Install StudyBloom now/);
+  assert.match(panels, /Add to Home Screen/);
+  assert.match(panels, /How to earn XP/);
+  assert.match(experience, /XP_PER_LEVEL/);
+});

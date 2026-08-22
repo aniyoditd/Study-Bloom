@@ -6,6 +6,7 @@ import "./study-v2.css";
 import "./study-v3.css";
 import "./study-v3-progress.css";
 import "./study-personal.css";
+import "./study-v4.css";
 import "katex/dist/katex.min.css";
 import PwaRegister from "./study/PwaRegister";
 

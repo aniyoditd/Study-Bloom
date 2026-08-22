@@ -1,4 +1,4 @@
-const CACHE = "studybloom-v3";
+const CACHE = "studybloom-v4";
 const SHELL = ["/", "/manifest.webmanifest", "/studybloom-icon.png", "/pdf.worker.min.mjs"];
 
 self.addEventListener("install", (event) => {
