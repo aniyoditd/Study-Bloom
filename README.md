@@ -1,6 +1,8 @@
-# StudyBloom v3 — Mini Online School
+# StudyBloom v8 — Mini Online School
 
 StudyBloom is a lavender-and-white, local-first schoolwork hub, study website, and installable app. Organize classes and homework, turn course files into complete study kits, handwrite with Apple Pencil, prepare for exams, and track your learning in one place.
+
+When hosted on Vercel with free Supabase sync enabled, your private StudyBloom login synchronizes the complete workspace between computer, iPad, and phone. Local storage remains an offline cache rather than the only copy. No ChatGPT account is required for saving.
 
 ## Run locally
 
@@ -15,9 +17,15 @@ Open `http://localhost:3000` and stop the app with `Ctrl+C` when finished.
 
 For a production check, run `npm run build`.
 
+For Vercel and cross-device setup, follow **VERCEL-SETUP.md**.
+
 ## Included features
 
 - Classes and subjects with course code, instructor, term, icon, and color
+- Canvas-style course classrooms with Home, Modules, Assignments, Grades, and Notes tabs
+- Editable course descriptions, instructor, room/link, meeting schedule, syllabus information, term, icon, and color
+- Three-dot course menus for opening, editing, or safely removing a classroom
+- Per-course progress summaries combining saved tests, flashcards, schoolwork, focus time, modules, and notes
 - A mini online school hub for homework, projects, readings, priorities, instructions, status, and deadlines
 - A class filter that keeps materials, tasks, notes, calendar items, and progress organized
 - Local intake for PDF, DOC, DOCX, PPTX, TXT, Markdown, CSV, JSON, HTML, RTF, and common image formats
@@ -38,6 +46,14 @@ For a production check, run `npm run build`.
 - Always-available scientific calculator and graphing popup
 - Apple Pencil, touch, and mouse whiteboard with pen colors, eraser, undo, persistent ink, and PNG export
 - Personal profile with avatar, school name, grade or role, motto, accent color, and daily study goal
+- Universal quick-add menu for courses, schoolwork, notes, materials, and calendar events
+- Confirmed removal controls for courses, study kits, notes, and planner tasks, including safe cleanup of linked course data
+- Interactive XP levels with milestone progress, reward explanations, and recent XP history
+- XP starts at 0, increases from completed work and study sessions, and can be manually edited or reset after a confirmation warning
+- Private Supabase account-based cloud sync across computer, iPad, and phone
+- Automatic synchronization of profile, classes, course details, notes, study kits, assignments, tests, flashcards, schedules, XP, settings, and progress
+- Offline change queue, multi-device conflict merging, and the latest 20 cloud revisions for recovery
+- Working install flow with a native prompt when available and device-specific desktop, iPhone, iPad, and Safari instructions
 - Custom StudyBloom book-and-sprout favicon and installable app icon
 - Personal streak, XP, levels, class colors, and class icons
 - Installable PWA shell and offline access to previously loaded app assets
@@ -58,7 +74,9 @@ The key stays on the local server and is never placed in browser code. Extracted
 
 ## Privacy and data
 
-- StudyBloom saves classes, study kits, schedules, notes, and progress in this browser on this device.
+- Signed-in hosted StudyBloom saves the complete workspace to a private account-backed cloud database and keeps a local offline cache on each device.
+- Without sign-in, StudyBloom continues saving classes, study kits, schedules, notes, and progress only in this browser on this device.
+- Cross-device use requires the hosted version and the same private StudyBloom login on every device; `localhost` by itself cannot synchronize between separate devices.
 - Use **Settings → Export backup** before clearing browser data or moving to another computer.
 - OCR runs locally. The first OCR use may need to fetch its language data if it is not already cached.
 - Review generated material against the original source before relying on it for graded work.

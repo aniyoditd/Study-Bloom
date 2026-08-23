@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "./application.css";
 import "./study-v2.css";
@@ -9,18 +8,9 @@ import "./study-personal.css";
 import "./study-v4.css";
 import "./study-v5.css";
 import "./study-v6.css";
+import "./study-v7.css";
 import "katex/dist/katex.min.css";
 import PwaRegister from "./study/PwaRegister";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "StudyBloom — Your personal study space",
@@ -40,9 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body>
         <PwaRegister />
         {children}
       </body>

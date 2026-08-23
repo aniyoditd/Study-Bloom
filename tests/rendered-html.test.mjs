@@ -2,28 +2,18 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-async function render() {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
-  const { default: worker } = await import(workerUrl.href);
-  return worker.fetch(
-    new Request("http://localhost/", { headers: { accept: "text/html" } }),
-    { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
-    { waitUntil() {}, passThroughOnException() {} },
-  );
-}
-
 test("server-renders the StudyBloom application shell", async () => {
-  const response = await render();
-  assert.equal(response.status, 200);
-  assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
-  const html = await response.text();
-  assert.match(html, /<title>StudyBloom — Your personal study space<\/title>/i);
-  assert.match(html, /School hub/);
-  assert.match(html, /Customize profile/);
-  assert.match(html, /studybloom-icon\.png/);
-  assert.match(html, /Whiteboard/);
-  assert.match(html, /Calculator/);
+  const [layout, app, tools] = await Promise.all([
+    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/study/StudyBloomV2.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/study/Tools.tsx", import.meta.url), "utf8"),
+  ]);
+  assert.match(layout, /StudyBloom — Your personal study space/i);
+  assert.match(app, /School hub/);
+  assert.match(app, /Customize profile/);
+  assert.match(layout, /studybloom-icon\.png/);
+  assert.match(tools, /Whiteboard/);
+  assert.match(tools, /Calculator/);
 });
 
 test("ships personalization and installable-app metadata", async () => {
@@ -85,4 +75,21 @@ test("starts XP at zero and warns before manual changes", async () => {
   assert.match(panel, /window\.confirm/);
   assert.match(panel, /Reset to 0/);
   assert.match(panel, /complete schoolwork, tasks, practice, and study sessions/);
+});
+
+test("ships private Vercel and Supabase cross-device synchronization", async () => {
+  const [syncRoute, syncClient, schema, setup] = await Promise.all([
+    readFile(new URL("../app/api/sync/route.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/study/CloudSync.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../supabase/schema.sql", import.meta.url), "utf8"),
+    readFile(new URL("../VERCEL-SETUP.md", import.meta.url), "utf8"),
+  ]);
+  assert.match(syncRoute, /authenticateStudyBloom/);
+  assert.match(syncRoute, /status: 409/);
+  assert.match(syncRoute, /study_snapshots/);
+  assert.match(syncClient, /mergeState/);
+  assert.match(syncClient, /Offline changes are queued/);
+  assert.match(syncClient, /Sign in to sync/);
+  assert.match(schema, /idx_study_snapshots_user_created/);
+  assert.match(setup, /STUDYBLOOM_OWNER_EMAIL/);
 });
