@@ -55,3 +55,20 @@ test("ships quick management, install guidance, and interactive XP", async () =>
   assert.match(panels, /How to earn XP/);
   assert.match(experience, /XP_PER_LEVEL/);
 });
+
+test("ships editable Canvas-style classrooms with saved progress", async () => {
+  const [app, classroom, types] = await Promise.all([
+    readFile(new URL("../app/study/StudyBloomV2.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/study/CoursePlatform.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/study/types.ts", import.meta.url), "utf8"),
+  ]);
+  assert.match(app, /CourseDetailView/);
+  assert.match(app, /updateCourse/);
+  assert.match(app, /localStorage\.setItem\("studybloom-v3"/);
+  assert.match(classroom, /Open classroom/);
+  assert.match(classroom, /Edit class details/);
+  assert.match(classroom, /Progress autosaved/);
+  assert.match(classroom, /Modules.*Assignments.*Grades.*Notes/);
+  assert.match(types, /meetingTime/);
+  assert.match(types, /syllabus/);
+});

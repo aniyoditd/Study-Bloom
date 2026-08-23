@@ -1,4 +1,4 @@
-export type View = "Home" | "School hub" | "Classes" | "Library" | "Study" | "Planner" | "Calendar" | "Focus" | "Notes" | "Math lab" | "Progress" | "Settings";
+export type View = "Home" | "School hub" | "Classes" | "Course" | "Library" | "Study" | "Planner" | "Calendar" | "Focus" | "Notes" | "Math lab" | "Progress" | "Settings";
 export type QuestionType = "Multiple choice" | "True / False" | "Open ended";
 
 export type ClassRoom = {
@@ -10,6 +10,10 @@ export type ClassRoom = {
   color: string;
   icon: string;
   term: string;
+  description?: string;
+  room?: string;
+  meetingTime?: string;
+  syllabus?: string;
 };
 
 export type Flashcard = { id: string; term: string; definition: string; topic: string };
