@@ -60,6 +60,7 @@ export type StudyTask = {
   progress?: number;
   timeSpent?: number;
   sessions?: number;
+  xpAwarded?: boolean;
 };
 
 export type StudyNote = {
@@ -124,7 +125,7 @@ export type Settings = {
 
 export type StudyState = {
   version: 3;
-  profile: { name: string; xp: number; streak: number; avatar: string; schoolName: string; gradeLevel: string; motto: string; accent: string; dailyGoalMinutes: number };
+  profile: { name: string; xp: number; xpVersion: number; streak: number; avatar: string; schoolName: string; gradeLevel: string; motto: string; accent: string; dailyGoalMinutes: number };
   classes: ClassRoom[];
   materials: Material[];
   tasks: StudyTask[];

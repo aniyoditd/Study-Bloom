@@ -9,7 +9,7 @@ const iso = (offset = 0) => {
 
 export const DEFAULT_STATE: StudyState = {
   version: 3,
-  profile: { name: "Alex Johnson", xp: 1420, streak: 5, avatar: "🌱", schoolName: "My StudyBloom Academy", gradeLevel: "Student", motto: "Small steps, strong results.", accent: "#7557c7", dailyGoalMinutes: 60 },
+  profile: { name: "Alex Johnson", xp: 0, xpVersion: 2, streak: 5, avatar: "🌱", schoolName: "My StudyBloom Academy", gradeLevel: "Student", motto: "Small steps, strong results.", accent: "#7557c7", dailyGoalMinutes: 60 },
   classes: [
     { id: "bio-101", name: "General Biology", subject: "Science", code: "BIO 101", instructor: "Dr. Rivera", color: "#7b5ccc", icon: "🧬", term: "Fall 2026", room: "Science 214", meetingTime: "Mon/Wed 10:00–11:15 AM", description: "Explore how cells, organisms, and ecosystems work through connected lectures, labs, and active-recall study.", syllabus: "Office hours: Tuesday 2–4 PM. Coursework includes weekly problem sets, two midterms, lab reports, and a cumulative final." },
     { id: "hist-204", name: "Modern World History", subject: "History", code: "HIST 204", instructor: "Prof. Chen", color: "#d88760", icon: "🏛️", term: "Fall 2026", room: "Humanities 108", meetingTime: "Tue/Thu 1:00–2:15 PM", description: "Trace political, economic, and social change across the modern world using primary sources and historical arguments." },

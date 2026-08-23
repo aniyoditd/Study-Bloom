@@ -8,6 +8,7 @@ import "./study-v3-progress.css";
 import "./study-personal.css";
 import "./study-v4.css";
 import "./study-v5.css";
+import "./study-v6.css";
 import "katex/dist/katex.min.css";
 import PwaRegister from "./study/PwaRegister";
 

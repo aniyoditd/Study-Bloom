@@ -72,3 +72,17 @@ test("ships editable Canvas-style classrooms with saved progress", async () => {
   assert.match(types, /meetingTime/);
   assert.match(types, /syllabus/);
 });
+
+test("starts XP at zero and warns before manual changes", async () => {
+  const [defaults, app, panel] = await Promise.all([
+    readFile(new URL("../app/study/defaults.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/study/StudyBloomV2.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/study/ExperiencePanels.tsx", import.meta.url), "utf8"),
+  ]);
+  assert.match(defaults, /xp: 0/);
+  assert.match(app, /parsed\.profile\?\.xpVersion !== 2/);
+  assert.match(app, /firstCompletion/);
+  assert.match(panel, /window\.confirm/);
+  assert.match(panel, /Reset to 0/);
+  assert.match(panel, /complete schoolwork, tasks, practice, and study sessions/);
+});
